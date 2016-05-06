@@ -1,0 +1,19 @@
+<html>
+<body>
+<form action="{{ url_for('add') }}" method=post>
+
+  {{ form.hidden_tag() }}
+
+  {{ form.author.label }}
+  {{ form.author }}
+
+  {{ form.author_img.label }}
+  {{ form.author_img }}
+
+  {{ form.text.label }}
+  {{ form.text }}
+
+  {{ form.submit }}
+</form>
+</body>
+</html>
