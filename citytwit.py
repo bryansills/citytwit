@@ -14,7 +14,7 @@ tweets = [
         'author': 'me',
         'text': 'yo',
         'author_img': 'http://i.imgur.com/BA98QMi.jpg',
-        'timestamp': datetime.datetime.now()
+        'timestamp': datetime.datetime.now().isoformat('T')
     }
 ]
 
@@ -35,7 +35,7 @@ def add_tweet():
         'author': request.json['author'],
         'text': request.json['text'],
         'author_img': request.json['author_img'],
-        'timestamp': datetime.datetime.now()
+        'timestamp': datetime.datetime.now().isoformat('T')
     }
     tweets.append(tweet)
     return jsonify({'results': tweets}), 201
