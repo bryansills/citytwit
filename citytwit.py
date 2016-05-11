@@ -3,7 +3,7 @@ from wtforms import TextField, SubmitField
 from wtforms.validators import DataRequired
 from flask_wtf import Form
 from json import dumps
-import datetime
+from datetime import datetime, timezone
 
 SECRET_KEY = 'secret'
 
@@ -15,7 +15,7 @@ tweets = [
         'author': 'me',
         'text': 'yo',
         'author_img': 'http://i.imgur.com/BA98QMi.jpg',
-        'timestamp': datetime.datetime.now().isoformat('T')
+        'timestamp': datetime.now(timezone.utc).astimezone().isoformat()
     }
 ]
 
@@ -36,7 +36,7 @@ def add_tweet():
         'author': request.json['author'],
         'text': request.json['text'],
         'author_img': request.json['author_img'],
-        'timestamp': datetime.datetime.now().isoformat('T')
+        'timestamp': datetime.now(timezone.utc).astimezone().isoformat()
     }
     tweets.append(tweet)
     return jsonify({'results': tweets}), 201
