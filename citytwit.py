@@ -1,7 +1,8 @@
-from flask import Flask, jsonify, request, render_template, redirect, url_for
+from flask import Flask, jsonify, request, render_template, redirect, url_for, make_response
 from wtforms import TextField, SubmitField
 from wtforms.validators import DataRequired
 from flask_wtf import Form
+from json import dumps
 import datetime
 
 SECRET_KEY = 'secret'
@@ -27,7 +28,7 @@ class AddForm(Form):
 
 @application.route('/', methods=['GET'])
 def get_tweets():
-    return jsonify({'results': tweets})
+    return make_response(dumps(tweets))
 
 @application.route('/', methods=['POST'])
 def add_tweet():
