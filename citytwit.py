@@ -29,7 +29,7 @@ class User(db.Model):
     author = db.Column(db.String(80))
     author_img = db.Column(db.String(80))
     text = db.Column(db.String(140))
-    timestamp = db.Column(db.Sring(50))
+    timestamp = db.Column(db.String(50))
 
     def __init__(self, author, author_img, text, timestamp):
         self.author = author
