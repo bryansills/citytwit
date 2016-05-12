@@ -24,7 +24,7 @@ tweets = [
     }
 ]
 
-class User(db.Model):
+class Tweet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.String(80))
     author_img = db.Column(db.String(80))
@@ -66,13 +66,15 @@ def add_tweet():
 def add():
     form = AddForm()
     if form.validate_on_submit():
-        tweet = {
-            'author': form.author.data,
-            'author_img': form.author_img.data,
-            'text': form.text.data,
-            'timestamp': datetime.datetime.now()
-        }
-        tweets.append(tweet)
+        author = form.author.data
+        author_img = form.author_img.data
+        text = form.text.data
+        timestamp = datetime.now(timezone.utc).astimezone().isoformat()
+        tweet = Tweet(author, author_img, text, timestamp)
+
+        db.session.add(tweet)
+        db.session.commit()
+
         return redirect(url_for("get_tweets"))
     return render_template('add.html', form=form)
 
