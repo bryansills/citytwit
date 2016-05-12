@@ -37,6 +37,9 @@ class Tweet(db.Model):
         self.text = text
         self.timestamp = timestamp
 
+    def json_dump(self):
+        return dict(author=self.author, author_img=self.author_img, text=self.text, timestamp=self.timestamp)
+
     def __repr__(self):
         return '<Author %r>' % self.author
 
@@ -49,7 +52,8 @@ class AddForm(Form):
 
 @app.route('/', methods=['GET'])
 def get_tweets():
-    return make_response(dumps(Tweet.query.all()))
+    tweets = Tweet.query.all()
+    return make_response(dumps([t.json_dump() for t in tweets]))
 
 @app.route('/', methods=['POST'])
 def add_tweet():
