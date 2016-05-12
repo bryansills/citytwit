@@ -1,1 +1,1 @@
-web: gunicorn citytwit:application
+web: gunicorn app:app

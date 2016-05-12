@@ -10,9 +10,9 @@ from datetime import datetime, timezone
 
 SECRET_KEY = 'secret'
 
-application = Flask(__name__)
-application.config.from_object(__name__)
-application.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app = Flask(__name__)
+app.config.from_object(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(application)
 
 tweets = [
@@ -47,11 +47,11 @@ class AddForm(Form):
     submit = SubmitField("Send")
 
 
-@application.route('/', methods=['GET'])
+@app.route('/', methods=['GET'])
 def get_tweets():
     return make_response(dumps(tweets))
 
-@application.route('/', methods=['POST'])
+@app.route('/', methods=['POST'])
 def add_tweet():
     tweet = {
         'author': request.json['author'],
@@ -62,7 +62,7 @@ def add_tweet():
     tweets.append(tweet)
     return jsonify({'results': tweets}), 201
 
-@application.route('/add', methods=['GET', 'POST'])
+@app.route('/add', methods=['GET', 'POST'])
 def add():
     form = AddForm()
     if form.validate_on_submit():
@@ -77,4 +77,4 @@ def add():
     return render_template('add.html', form=form)
 
 if __name__ == '__main__':
-    application.run(debug=True)
+    app.run(debug=True)
