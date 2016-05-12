@@ -13,7 +13,7 @@ SECRET_KEY = 'secret'
 application = Flask(__name__)
 application.config.from_object(__name__)
 application.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-db = SQLAlchemy(app)
+db = SQLAlchemy(application)
 
 tweets = [
     {
