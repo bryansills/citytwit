@@ -1,4 +1,7 @@
+import os
+
 from flask import Flask, jsonify, request, render_template, redirect, url_for, make_response
+from flask.ext.sqlalchemy import SQLAlchemy
 from wtforms import TextField, SubmitField
 from wtforms.validators import DataRequired
 from flask_wtf import Form
@@ -9,6 +12,8 @@ SECRET_KEY = 'secret'
 
 application = Flask(__name__)
 application.config.from_object(__name__)
+application.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+db = SQLAlchemy(app)
 
 tweets = [
     {
@@ -18,6 +23,22 @@ tweets = [
         'timestamp': datetime.now(timezone.utc).astimezone().isoformat()
     }
 ]
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.String(80))
+    author_img = db.Column(db.String(80))
+    text = db.Column(db.String(140))
+    timestamp = db.Column(db.Sring(50))
+
+    def __init__(self, author, author_img, text, timestamp):
+        self.author = author
+        self.author_img = author_img
+        self.text = text
+        self.timestamp = timestamp
+
+    def __repr__(self):
+        return '<Author %r>' % self.author
 
 class AddForm(Form):
     author = TextField("Author", validators=[DataRequired()])
