@@ -15,15 +15,6 @@ app.config.from_object(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
 
-tweets = [
-    {
-        'author': 'me',
-        'text': 'yo',
-        'author_img': 'http://i.imgur.com/BA98QMi.jpg',
-        'timestamp': datetime.now(timezone.utc).astimezone().isoformat()
-    }
-]
-
 class Tweet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.String(80))
@@ -54,17 +45,6 @@ class AddForm(Form):
 def get_tweets():
     tweets = Tweet.query.all()
     return make_response(dumps([t.json_dump() for t in tweets]))
-
-@app.route('/', methods=['POST'])
-def add_tweet():
-    tweet = {
-        'author': request.json['author'],
-        'text': request.json['text'],
-        'author_img': request.json['author_img'],
-        'timestamp': datetime.now(timezone.utc).astimezone().isoformat()
-    }
-    tweets.append(tweet)
-    return jsonify({'results': tweets}), 201
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
