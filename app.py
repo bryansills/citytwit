@@ -49,7 +49,7 @@ class AddForm(Form):
 
 @app.route('/', methods=['GET'])
 def get_tweets():
-    return make_response(dumps(tweets))
+    return make_response(dumps(Tweet.query.all()))
 
 @app.route('/', methods=['POST'])
 def add_tweet():
