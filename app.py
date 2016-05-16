@@ -1,4 +1,5 @@
 import os
+import time
 
 from flask import Flask, jsonify, request, render_template, redirect, url_for, make_response
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -44,6 +45,7 @@ class AddForm(Form):
 @app.route('/', methods=['GET'])
 def get_tweets():
     tweets = Tweet.query.all()
+    time.sleep(10)
     return make_response(dumps([t.json_dump() for t in tweets]))
 
 @app.route('/add', methods=['GET', 'POST'])
